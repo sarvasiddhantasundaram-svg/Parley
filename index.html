@@ -3,69 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parley — Beat Overpriced Bills & Keep 100% of Your Savings</title>
-    <!-- Tailwind CSS via CDN -->
+    <title>Parley — Keep 100% of Your Bill Savings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        paper: '#FAF7F2',
-                        ink: {
-                            DEFAULT: '#1A2332',
-                            light: '#2D3A4E',
-                            dark: '#0F1622',
+                        navy: {
+                            DEFAULT: '#0A192F',
+                            light: '#1E293B',
+                            accent: '#3B82F6',
                         },
-                        emeraldCustom: {
-                            DEFAULT: '#059669',
-                            hover: '#047857',
-                            light: '#ECFDF5',
-                            accent: '#10B981',
-                        }
+                        indigoCustom: {
+                            DEFAULT: '#4F46E5',
+                            hover: '#4338CA',
+                            light: '#EEF2FF',
+                        },
+                        paper: '#F8F9FA'
                     },
-                    fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', '-apple-system', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background-color: #FAF7F2;
-            color: #1A2332;
-        }
-        .tab-active {
-            border-bottom: 2px solid #1A2332;
-            color: #1A2332;
-            font-weight: 600;
-        }
-        .tab-inactive {
-            color: #6B7280;
-            border-bottom: 2px solid transparent;
-        }
-        .tab-inactive:hover {
-            color: #1A2332;
-        }
+        body { background-color: #F8F9FA; color: #0A192F; }
+        .tab-active { border-bottom: 2px solid #0A192F; color: #0A192F; font-weight: 600; }
+        .tab-inactive { color: #64748B; border-bottom: 2px solid transparent; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-emeraldCustom-light selection:text-emeraldCustom">
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-indigoCustom-light selection:text-indigoCustom">
 
-    <!-- Header Navigation -->
-    <header class="w-full border-b border-gray-200/60 bg-paper sticky top-0 z-50">
+    <!-- Header -->
+    <header class="w-full border-b border-gray-200/80 bg-white sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('landing-screen')">
-                <svg width="120" height="38" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-ink">
-                    <text x="0" y="38" font-family="'Inter', sans-serif" font-weight="900" font-size="44" letter-spacing="-2.5" fill="#1A2332">parley</text>
-                </svg>
+                <span class="font-black text-2xl tracking-tight text-navy">parley</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 hidden sm:inline-block">Keep 100% of your savings</span>
-                <button onclick="showScreen('form-screen')" class="bg-ink hover:bg-ink-light text-paper px-4 py-2 rounded-lg text-sm font-medium transition duration-200 shadow-sm">
-                    New Script
-                </button>
-            </div>
+            <button onclick="showScreen('form-screen')" class="bg-navy hover:bg-navy-light text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                New Script
+            </button>
         </div>
     </header>
 
@@ -73,58 +51,79 @@
     <main class="flex-1 max-w-4xl w-full mx-auto px-6 py-8 md:py-12">
 
         <!-- SCREEN 1: LANDING SCREEN -->
-        <section id="landing-screen" class="space-y-12">
+        <section id="landing-screen" class="space-y-16">
             <!-- Hero -->
-            <div class="text-center space-y-6 max-w-2xl mx-auto pt-6">
-                <div class="inline-flex items-center space-x-2 bg-emeraldCustom-light border border-emeraldCustom/20 text-emeraldCustom px-3.5 py-1.5 rounded-full text-xs font-semibold">
-                    <span>⚡ No 33–60% cut of your savings like Rocket Money</span>
+            <div class="text-center space-y-6 max-w-2xl mx-auto pt-4">
+                <div class="inline-flex items-center space-x-2 bg-indigoCustom-light border border-indigoCustom/20 text-indigoCustom px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                    <span>⚡ Keep 100% of your savings — zero commission fees</span>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-ink tracking-tight leading-tight">
-                    Lower your bills.<br><span class="text-emeraldCustom">Keep every single dollar.</span>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight leading-tight">
+                    Lower your bills.<br><span class="text-indigoCustom">Never share your savings.</span>
                 </h1>
-                <p class="text-lg text-gray-600 leading-relaxed">
-                    Apps like Rocket Money take up to 60% of what you save. Parley generates custom negotiation scripts and cancellation letters for a single <strong>$6.99 unlock</strong> so you keep 100% of your money.
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Traditional bill negotiation apps take up to 60% of what you save. Parley equips you with instant, AI-crafted negotiation scripts and cancellation letters so you keep every dollar.
                 </p>
-                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button onclick="showScreen('form-screen')" class="w-full sm:w-auto bg-ink hover:bg-ink-light text-paper px-8 py-4 rounded-xl font-semibold text-lg transition duration-200 shadow-lg hover:shadow-xl">
-                        Get Started Free
+                <div class="pt-2 flex justify-center">
+                    <button onclick="showScreen('form-screen')" class="bg-navy hover:bg-navy-light text-white px-8 py-4 rounded-xl font-semibold text-lg transition shadow-lg hover:shadow-xl">
+                        Generate Free Script
                     </button>
                 </div>
-                <p class="text-xs text-gray-500">First script is 100% free • No bank account connection needed</p>
+                <p class="text-xs text-slate-500">First script is 100% free • No bank account link required</p>
             </div>
 
-            <!-- Comparison Matrix -->
-            <div class="mt-16 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="p-6 border-b border-gray-100 bg-gray-50/50">
-                    <h3 class="text-lg font-bold text-ink text-center">Why Parley Wins Against Competitors</h3>
+            <!-- Pricing Grid -->
+            <div class="space-y-8">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl font-bold text-navy">Simple, Transparent Pricing</h2>
+                    <p class="text-sm text-slate-500">Choose the plan that fits your financial goals.</p>
                 </div>
-                <div class="p-6">
-                    <div class="grid grid-cols-3 text-sm font-semibold border-b border-gray-200 pb-3 text-gray-500">
-                        <div>Feature</div>
-                        <div class="text-center">Rocket Money / Trim</div>
-                        <div class="text-center text-ink font-bold">Parley</div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Single Script -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold text-navy">Single Pass</h3>
+                            <p class="text-xs text-slate-500">Best for negotiating a single high-cost provider.</p>
+                            <div class="text-3xl font-extrabold text-navy">$6.99 <span class="text-xs font-normal text-slate-500">/ single use</span></div>
+                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
+                                <li>✓ 1 Customized Phone Script</li>
+                                <li>✓ 1 Formal Cancellation Letter</li>
+                                <li>✓ Tailored to provider retention rules</li>
+                            </ul>
+                        </div>
+                        <button onclick="showScreen('form-screen')" class="w-full bg-slate-100 hover:bg-slate-200 text-navy py-3 rounded-xl font-semibold text-sm transition">Select Single Pass</button>
                     </div>
-                    <div class="divide-y divide-gray-100">
-                        <div class="grid grid-cols-3 py-3.5 text-sm items-center">
-                            <span class="text-gray-700 font-medium">Fee on your savings</span>
-                            <span class="text-center text-red-500 font-semibold">33% – 60% upfront</span>
-                            <span class="text-center text-emeraldCustom font-bold">$0 (You keep 100%)</span>
+
+                    <!-- Monthly Unlimited (Most Popular) -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-indigoCustom shadow-md relative flex flex-col justify-between space-y-6">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigoCustom text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">Most Popular</span>
+                        <div class="space-y-4 pt-1">
+                            <h3 class="text-lg font-bold text-navy">Monthly Unlimited</h3>
+                            <p class="text-xs text-slate-500">Ideal for reviewing all household bills.</p>
+                            <div class="text-3xl font-extrabold text-navy">$9.99 <span class="text-xs font-normal text-slate-500">/ month</span></div>
+                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
+                                <li>✓ Unlimited Negotiation Scripts</li>
+                                <li>✓ Unlimited Cancellation Letters</li>
+                                <li>✓ Cancel anytime in 1 click</li>
+                                <li>✓ Keep 100% of savings</li>
+                            </ul>
                         </div>
-                        <div class="grid grid-cols-3 py-3.5 text-sm items-center">
-                            <span class="text-gray-700 font-medium">Pricing</span>
-                            <span class="text-center text-gray-500">$7–$14/mo sub + cut</span>
-                            <span class="text-center text-ink font-bold">$6.99 flat (or free)</span>
+                        <button onclick="showScreen('form-screen')" class="w-full bg-indigoCustom hover:bg-indigoCustom-hover text-white py-3 rounded-xl font-semibold text-sm transition shadow-sm">Start Monthly Plan</button>
+                    </div>
+
+                    <!-- Annual Pass -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold text-navy">Annual Pass</h3>
+                            <p class="text-xs text-slate-500">Max savings for complete financial cleanup.</p>
+                            <div class="text-3xl font-extrabold text-navy">$59.00 <span class="text-xs font-normal text-slate-500">/ year</span></div>
+                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
+                                <li>✓ Everything in Monthly Unlimited</li>
+                                <li>✓ Save 50% vs monthly rate</li>
+                                <li>✓ Priority AI generation engine</li>
+                            </ul>
                         </div>
-                        <div class="grid grid-cols-3 py-3.5 text-sm items-center">
-                            <span class="text-gray-700 font-medium">Privacy</span>
-                            <span class="text-center text-gray-500">Requires bank login</span>
-                            <span class="text-center text-emeraldCustom font-bold">100% Private (No bank linked)</span>
-                        </div>
-                        <div class="grid grid-cols-3 py-3.5 text-sm items-center">
-                            <span class="text-gray-700 font-medium">Speed</span>
-                            <span class="text-center text-gray-500">2–10 business days</span>
-                            <span class="text-center text-emeraldCustom font-bold">Instant (3 seconds)</span>
-                        </div>
+                        <button onclick="showScreen('form-screen')" class="w-full bg-slate-100 hover:bg-slate-200 text-navy py-3 rounded-xl font-semibold text-sm transition">Select Annual Pass</button>
                     </div>
                 </div>
             </div>
@@ -133,125 +132,89 @@
         <!-- SCREEN 2: FORM -->
         <section id="form-screen" class="hidden max-w-2xl mx-auto">
             <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm space-y-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-ink">Describe your bill or service</h2>
-                    <p class="text-sm text-gray-500 mt-1">Provide details so our engine can generate tailored negotiation scripts and cancellation letters.</p>
-                </div>
-
+                <h2 class="text-2xl font-bold text-navy">Describe your bill or service</h2>
                 <form id="bill-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Company / Provider Name</label>
-                        <input type="text" id="company" required placeholder="e.g. Comcast, Xfinity, Verizon, Geico, Planet Fitness" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-ink focus:border-ink outline-none transition text-ink">
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Company / Provider Name</label>
+                        <input type="text" id="company" required placeholder="e.g. Comcast, Xfinity, Geico" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Current Monthly Bill ($)</label>
-                            <input type="number" id="amount" step="0.01" required placeholder="120.00" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-ink focus:border-ink outline-none transition text-ink">
+                            <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Current Monthly Bill ($)</label>
+                            <input type="number" id="amount" step="0.01" required placeholder="120.00" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Customer Duration</label>
-                            <input type="text" id="tenure" required placeholder="e.g. 2 years, 6 months" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-ink focus:border-ink outline-none transition text-ink">
+                            <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Customer Duration</label>
+                            <input type="text" id="tenure" required placeholder="e.g. 2 years" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
                         </div>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Primary Goal</label>
-                        <select id="goal" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-ink focus:border-ink outline-none transition text-ink">
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Primary Goal</label>
+                        <select id="goal" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
                             <option value="Lower monthly price">Lower monthly bill rate</option>
                             <option value="Cancel service completely">Cancel service & avoid fee</option>
-                            <option value="Threaten cancellation for max discount">Threaten cancellation for max discount</option>
                         </select>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Additional Details (Optional)</label>
-                        <textarea id="details" rows="3" placeholder="e.g. Competitor offers $45/mo, bill went up after promo ended, poor service quality..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-ink focus:border-ink outline-none transition text-ink text-sm"></textarea>
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Additional Details</label>
+                        <textarea id="details" rows="3" placeholder="Competitor offers lower rate..." class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-sm text-navy"></textarea>
                     </div>
-
-                    <div class="pt-2">
-                        <button type="submit" class="w-full bg-ink hover:bg-ink-light text-paper py-4 rounded-xl font-bold text-base transition duration-200 shadow-md">
-                            Generate Script & Letter
-                        </button>
-                    </div>
+                    <button type="submit" class="w-full bg-navy hover:bg-navy-light text-white py-4 rounded-xl font-bold text-base transition">
+                        Generate Script & Letter
+                    </button>
                 </form>
             </div>
         </section>
 
         <!-- SCREEN 3: PROCESSING STATE -->
         <section id="processing-screen" class="hidden text-center py-20 space-y-6">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-ink border-t-transparent"></div>
-            <div class="space-y-2">
-                <h3 class="text-xl font-bold text-ink">Crafting your personalized scripts...</h3>
-                <p class="text-sm text-gray-500">Analyzing provider retention counter-offers and legal cancellation clauses.</p>
-            </div>
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-navy border-t-transparent"></div>
+            <h3 class="text-xl font-bold text-navy">Crafting your personalized scripts...</h3>
         </section>
 
         <!-- SCREEN 4: OUTPUT SCREEN -->
         <section id="output-screen" class="hidden space-y-6">
-            <!-- Estimated Savings Banner -->
-            <div class="bg-emeraldCustom-light border border-emeraldCustom/30 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="space-y-1 text-center sm:text-left">
-                    <span class="text-xs font-bold tracking-wider text-emeraldCustom uppercase">Estimated Savings Potential</span>
-                    <h3 class="text-3xl font-extrabold text-emeraldCustom" id="estimated-savings-display">$180 – $360 / year</h3>
-                    <p class="text-xs text-emeraldCustom/80">With Rocket Money, they would take up to <strong>$216</strong> of this. With Parley, you keep <strong>100%</strong>.</p>
+            <div class="bg-indigoCustom-light border border-indigoCustom/30 p-6 rounded-2xl flex items-center justify-between">
+                <div>
+                    <span class="text-xs font-bold uppercase text-indigoCustom">Estimated Savings Potential</span>
+                    <h3 class="text-3xl font-extrabold text-indigoCustom" id="estimated-savings-display">$180 – $360 / year</h3>
                 </div>
-                <div class="text-center sm:text-right">
-                    <span class="inline-block bg-emeraldCustom text-white text-xs font-bold px-3 py-1 rounded-full">Keep 100% Savings</span>
-                </div>
+                <span class="bg-indigoCustom text-white text-xs font-bold px-3 py-1 rounded-full">Keep 100% Savings</span>
             </div>
 
-            <!-- Tab Navigation & Output Card -->
             <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="flex border-b border-gray-200 bg-gray-50/50">
-                    <button id="tab-script-btn" onclick="switchTab('script')" class="flex-1 py-4 text-center font-semibold text-sm tab-active transition">
-                        📞 Phone Negotiation Script
-                    </button>
-                    <button id="tab-letter-btn" onclick="switchTab('letter')" class="flex-1 py-4 text-center font-semibold text-sm tab-inactive transition">
-                        ✉️ Written Cancellation Letter
-                    </button>
+                <div class="flex border-b border-gray-200 bg-gray-50">
+                    <button id="tab-script-btn" onclick="switchTab('script')" class="flex-1 py-4 font-semibold text-sm tab-active">📞 Phone Script</button>
+                    <button id="tab-letter-btn" onclick="switchTab('letter')" class="flex-1 py-4 font-semibold text-sm tab-inactive">✉️ Cancellation Letter</button>
                 </div>
-
-                <div class="p-6 md:p-8 space-y-6">
-                    <!-- Script Content -->
+                <div class="p-6">
                     <div id="script-content-view" class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Phone Script Cheat-Sheet</span>
-                            <button onclick="copyToClipboard('script-text')" class="text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-ink px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
-                                <span>Copy Script</span>
-                            </button>
-                        </div>
-                        <pre id="script-text" class="whitespace-pre-wrap font-sans text-sm text-ink-light bg-paper p-5 rounded-xl border border-gray-200/80 leading-relaxed overflow-x-auto"></pre>
+                        <pre id="script-text" class="whitespace-pre-wrap font-sans text-sm text-navy bg-paper p-5 rounded-xl border border-gray-200"></pre>
                     </div>
-
-                    <!-- Letter Content -->
                     <div id="letter-content-view" class="hidden space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Formal Cancellation Letter</span>
-                            <button onclick="copyToClipboard('letter-text')" class="text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-ink px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
-                                <span>Copy Letter</span>
-                            </button>
-                        </div>
-                        <pre id="letter-text" class="whitespace-pre-wrap font-sans text-sm text-ink-light bg-paper p-5 rounded-xl border border-gray-200/80 leading-relaxed overflow-x-auto"></pre>
+                        <pre id="letter-text" class="whitespace-pre-wrap font-sans text-sm text-navy bg-paper p-5 rounded-xl border border-gray-200"></pre>
                     </div>
                 </div>
             </div>
 
-            <!-- Paywall / Upgrade Banner -->
-            <div id="paywall-banner" class="hidden bg-ink text-paper p-6 rounded-2xl space-y-4 text-center">
+            <div id="paywall-banner" class="hidden bg-navy text-white p-6 rounded-2xl text-center space-y-3">
                 <h4 class="text-xl font-bold">You've used your 1 free script!</h4>
-                <p class="text-sm text-gray-300 max-w-md mx-auto">Unlock unlimited negotiation scripts and cancellation templates for any bill for just $6.99 (one-time fee).</p>
-                <div class="pt-2">
-                    <button onclick="alert('Checkout integration ready! Unlock for $6.99.')" class="bg-emeraldCustom hover:bg-emeraldCustom-hover text-white px-6 py-3 rounded-xl font-bold text-sm transition">
-                        Unlock Unlimited Scripts ($6.99)
-                    </button>
-                </div>
+                <p class="text-sm text-slate-300">Unlock unlimited negotiation scripts for any bill starting at $6.99.</p>
+                <button onclick="showScreen('landing-screen')" class="bg-indigoCustom hover:bg-indigoCustom-hover text-white px-6 py-3 rounded-xl font-bold text-sm">View Upgrade Plans</button>
             </div>
         </section>
-
     </main>
 
-    <!-- JS State Management & Backend Handler -->
+    <!-- Legal Footer Disclaimer -->
+    <footer class="w-full border-t border-gray-200 py-8 bg-white mt-12">
+        <div class="max-w-4xl mx-auto px-6 text-center space-y-2">
+            <p class="text-xs text-slate-400 leading-relaxed">
+                <strong>Disclaimer:</strong> Rocket Money is a registered trademark of Rocket Money, Inc. Parley is an independent financial tool and is not affiliated with, sponsored by, or endorsed by Rocket Money or any third-party service provider.
+            </p>
+            <p class="text-xs text-slate-400">© 2026 Parley. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
         let runsUsed = parseInt(localStorage.getItem('parley_runs') || '0');
 
@@ -264,31 +227,21 @@
         }
 
         function switchTab(tab) {
-            const scriptBtn = document.getElementById('tab-script-btn');
-            const letterBtn = document.getElementById('tab-letter-btn');
-            const scriptView = document.getElementById('script-content-view');
-            const letterView = document.getElementById('letter-content-view');
-
             if (tab === 'script') {
-                scriptBtn.className = 'flex-1 py-4 text-center font-semibold text-sm tab-active transition';
-                letterBtn.className = 'flex-1 py-4 text-center font-semibold text-sm tab-inactive transition';
-                scriptView.classList.remove('hidden');
-                letterView.classList.add('hidden');
+                document.getElementById('tab-script-btn').className = 'flex-1 py-4 font-semibold text-sm tab-active';
+                document.getElementById('tab-letter-btn').className = 'flex-1 py-4 font-semibold text-sm tab-inactive';
+                document.getElementById('script-content-view').classList.remove('hidden');
+                document.getElementById('letter-content-view').classList.add('hidden');
             } else {
-                scriptBtn.className = 'flex-1 py-4 text-center font-semibold text-sm tab-inactive transition';
-                letterBtn.className = 'flex-1 py-4 text-center font-semibold text-sm tab-active transition';
-                scriptView.classList.add('hidden');
-                letterView.classList.remove('hidden');
+                document.getElementById('tab-script-btn').className = 'flex-1 py-4 font-semibold text-sm tab-inactive';
+                document.getElementById('tab-letter-btn').className = 'flex-1 py-4 font-semibold text-sm tab-active';
+                document.getElementById('script-content-view').classList.add('hidden');
+                document.getElementById('letter-content-view').classList.remove('hidden');
             }
         }
 
         async function handleFormSubmit(event) {
             event.preventDefault();
-
-            if (runsUsed >= 1) {
-                document.getElementById('paywall-banner').classList.remove('hidden');
-            }
-
             const formData = {
                 company: document.getElementById('company').value,
                 amount: parseFloat(document.getElementById('amount').value),
@@ -298,10 +251,7 @@
             };
 
             showScreen('processing-screen');
-
-            const minSavings = Math.round(formData.amount * 12 * 0.20);
-            const maxSavings = Math.round(formData.amount * 12 * 0.40);
-            document.getElementById('estimated-savings-display').innerText = `$${minSavings} – $${maxSavings} / year`;
+            document.getElementById('estimated-savings-display').innerText = `$${Math.round(formData.amount * 2.4)} – $${Math.round(formData.amount * 4.8)} / year`;
 
             try {
                 const response = await fetch('/.netlify/functions/generate-script', {
@@ -309,65 +259,24 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-
-                if (!response.ok) throw new Error('API request failed');
-
                 const data = await response.json();
                 renderResults(data.script, data.letter);
-
             } catch (err) {
-                console.warn('Backend serverless function unavailable. Using fallback response generator.');
-                const fallbackScript = `PARLEY NEGOTIATION SCRIPT FOR ${formData.company.toUpperCase()}
-
-[STEP 1: INITIAL REQUEST]
-"Hello, I've been a loyal customer for ${formData.tenure}. I noticed my current bill is $${formData.amount}/month. I am looking to lower my expenses and noticed competitor packages in my area starting significantly lower. What promotional rates can we apply to keep my monthly bill down?"
-
-[STEP 2: IF THEY SAY NO OR OFFER A SMALL DISCOUNT]
-"I appreciate that, but $${formData.amount} is beyond my budget right now. Rocket Money and competitor tools charge fees on savings, so I am handling this directly today. Please transfer me to your Customer Retention Department."
-
-[STEP 3: RETENTION CLOSER]
-"If we can drop this closer to $${(formData.amount * 0.7).toFixed(2)}/month, I will happily renew my contract today. Otherwise, please process my cancellation request."`;
-
-                const fallbackLetter = `FORMAL NOTICE OF CANCELLATION
-
-To: ${formData.company} Billing & Retention Department
-Date: ${new Date().toLocaleDateString()}
-
-Account Identifier: [Insert Account #]
-Customer Duration: ${formData.tenure}
-
-To Whom It May Concern,
-
-Please accept this letter as formal notice of cancellation for my account with ${formData.company}, effective immediately. My current monthly rate of $${formData.amount} is no longer competitive. 
-
-Please confirm in writing that no further recurring charges will be applied to my card on file.
-
-Sincerely,
-[Your Name]`;
-
-                renderResults(fallbackScript, fallbackLetter);
+                const targetPrice = (formData.amount * 0.7).toFixed(2);
+                renderResults(
+                    `PARLEY NEGOTIATION SCRIPT FOR ${formData.company.toUpperCase()}\n\n[STEP 1: INITIAL REQUEST]\n"Hello, I've been a loyal customer for ${formData.tenure}. I noticed my current bill is $${formData.amount}/month. I am looking to lower my expenses and noticed competitor packages in my area starting significantly lower. What promotional rates can we apply to keep my monthly bill down?"\n\n[STEP 2: IF THEY SAY NO OR OFFER A SMALL DISCOUNT]\n"I appreciate that, but $${formData.amount} is beyond my budget right now. I am evaluating my options today to lower my fixed overhead. Please transfer me to your Customer Retention Department."\n\n[STEP 3: RETENTION CLOSER]\n"If we can drop this closer to $${targetPrice}/month, I will happily renew my contract today. Otherwise, please process my cancellation request."`,
+                    `FORMAL NOTICE OF CANCELLATION\n\nTo: ${formData.company} Retention Department\nDate: ${new Date().toLocaleDateString()}\n\nPlease accept this letter as formal notice of cancellation for my account with ${formData.company}, effective immediately. My current monthly rate of $${formData.amount} is no longer within budget.\n\nSincerely,\n[Your Name]`
+                );
             }
         }
 
         function renderResults(scriptText, letterText) {
             document.getElementById('script-text').innerText = scriptText;
             document.getElementById('letter-text').innerText = letterText;
-            
-            runsUsed += 1;
+            runsUsed++;
             localStorage.setItem('parley_runs', runsUsed.toString());
-            
-            if (runsUsed > 1) {
-                document.getElementById('paywall-banner').classList.remove('hidden');
-            }
-
+            if (runsUsed > 1) document.getElementById('paywall-banner').classList.remove('hidden');
             showScreen('output-screen');
-        }
-
-        function copyToClipboard(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard!');
-            });
         }
     </script>
 </body>
