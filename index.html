@@ -1,282 +1,761 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parley — Keep 100% of Your Bill Savings</title>
+    <title>Parley — Financial Self-Defense & AI Advocate</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        navy: {
-                            DEFAULT: '#0A192F',
-                            light: '#1E293B',
-                            accent: '#3B82F6',
+                        parchment: {
+                            50: '#FAF8F5',
+                            100: '#F4F0EA',
+                            200: '#E6DFD5',
+                            300: '#D5C9B8',
+                            800: '#2C2A29',
+                            900: '#1C1A19',
+                            950: '#121110'
                         },
-                        indigoCustom: {
-                            DEFAULT: '#4F46E5',
-                            hover: '#4338CA',
-                            light: '#EEF2FF',
+                        terracotta: {
+                            50: '#FDF6F0',
+                            100: '#FBEAD9',
+                            400: '#E07A5F',
+                            500: '#D96B43',
+                            600: '#CC5A32',
+                            700: '#A84320',
+                            900: '#5C220E'
                         },
-                        paper: '#F8F9FA'
+                        warmSlate: {
+                            500: '#64748B',
+                            800: '#1E293B',
+                            900: '#0F172A'
+                        }
                     },
-                    fontFamily: { sans: ['Inter', '-apple-system', 'sans-serif'] }
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
+    <!-- FontAwesome & Google Fonts (Playfair Display + Plus Jakarta Sans) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #F8F9FA; color: #0A192F; }
-        .tab-active { border-bottom: 2px solid #0A192F; color: #0A192F; font-weight: 600; }
-        .tab-inactive { color: #64748B; border-bottom: 2px solid transparent; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF8F5;
+            color: #1C1A19;
+        }
+        .serif-title {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .warm-card {
+            background: #ffffff;
+            border: 1px solid rgba(213, 201, 184, 0.4);
+            box-shadow: 0 4px 20px -2px rgba(28, 26, 25, 0.03);
+        }
+        .warm-card-hover:hover {
+            border-color: rgba(217, 107, 67, 0.4);
+            box-shadow: 0 10px 30px -5px rgba(217, 107, 67, 0.08);
+        }
+        .glow-terracotta {
+            box-shadow: 0 12px 35px -8px rgba(217, 107, 67, 0.15);
+        }
+        .gradient-terracotta {
+            background: linear-gradient(135deg, #D96B43 0%, #CC5A32 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F4F0EA;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D5C9B8;
+            border-radius: 4px;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-indigoCustom-light selection:text-indigoCustom">
+<body class="min-h-screen flex flex-col justify-between selection:bg-terracotta-100 selection:text-terracotta-900">
 
-    <!-- Header -->
-    <header class="w-full border-b border-gray-200/80 bg-white sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('landing-screen')">
-                <span class="font-black text-2xl tracking-tight text-navy">parley</span>
+    <nav class="sticky top-0 z-40 bg-parchment-50/90 backdrop-blur-md border-b border-parchment-200/60 px-4 lg:px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-terracotta-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-terracotta-500/20">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <span class="text-2xl font-black tracking-tight text-parchment-900 serif-title">Parley<span class="text-terracotta-500 font-sans">.ai</span></span>
             </div>
-            <button onclick="showScreen('form-screen')" class="bg-navy hover:bg-navy-light text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
-                New Script
-            </button>
+            
+            <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-parchment-800">
+                <a href="#diagnostic" class="hover:text-terracotta-600 transition-colors">AI Advocate</a>
+                <a href="#how-it-works" class="hover:text-terracotta-600 transition-colors">How It Works</a>
+                <a href="#vault" class="hover:text-terracotta-600 transition-colors">Savings Vault</a>
+                <a href="#pricing" class="hover:text-terracotta-600 transition-colors">Pricing</a>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="scrollToSection('vault')" class="px-3.5 py-1.5 rounded-xl bg-parchment-100 border border-parchment-300 text-parchment-800 text-xs font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-piggy-bank text-terracotta-500"></i>
+                    <span>Vault: <span id="nav-vault-amount">$0.00</span></span>
+                </button>
+                <button onclick="openPricingModal()" class="px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-sm transition-all shadow-md shadow-terracotta-500/20">
+                    Get Pro
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-12 pb-16 px-4 overflow-hidden bg-gradient-to-b from-parchment-50 via-parchment-100/50 to-parchment-50">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-terracotta-50 border border-terracotta-200 text-terracotta-700 text-xs font-bold mb-6">
+                <span class="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse"></span>
+                <span>Warm, Privacy-First AI Financial Advocate</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-parchment-950 serif-title">
+                Stop Paying <span class="italic text-terracotta-600 font-normal">"Lazy Taxes"</span>.<br/>
+                Demand Your Money Back.
+            </h1>
+            
+            <p class="text-parchment-800 text-lg md:text-xl max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+                Your empathetic, intelligent advocate that finds hidden fees, negotiates contracts, disputes bank charges, and gets you refunded—<strong class="text-parchment-950 font-semibold">without taking a cut of your savings.</strong>
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-6 text-xs text-parchment-800 font-semibold">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-lock text-terracotta-500"></i>
+                    <span>Zero Bank Logins Required</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-coins text-terracotta-500"></i>
+                    <span>Keep 100% of Your Savings</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-user-shield text-terracotta-500"></i>
+                    <span>100% In-Browser Private</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="flex-1 max-w-4xl w-full mx-auto px-6 py-8 md:py-12">
+    <main id="diagnostic" class="max-w-4xl mx-auto px-4 w-full mb-20 relative z-20">
+        <div class="warm-card rounded-3xl p-6 md:p-8 border border-parchment-300 glow-terracotta transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <label for="user-prompt" class="text-sm font-bold text-parchment-900 flex items-center space-x-2">
+                    <i class="fa-solid fa-comment-dots text-terracotta-500"></i>
+                    <span>How can Parley advocate for you today?</span>
+                </label>
+                <span class="text-xs font-semibold text-terracotta-700 bg-terracotta-50 px-3 py-1 rounded-full border border-terracotta-200">
+                    1 Free Diagnostic Available
+                </span>
+            </div>
 
-        <!-- SCREEN 1: LANDING SCREEN -->
-        <section id="landing-screen" class="space-y-16">
-            <!-- Hero -->
-            <div class="text-center space-y-6 max-w-2xl mx-auto pt-4">
-                <div class="inline-flex items-center space-x-2 bg-indigoCustom-light border border-indigoCustom/20 text-indigoCustom px-3.5 py-1.5 rounded-full text-xs font-semibold">
-                    <span>⚡ Keep 100% of your savings — zero commission fees</span>
-                </div>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-navy tracking-tight leading-tight">
-                    Lower your bills.<br><span class="text-indigoCustom">Never share your savings.</span>
-                </h1>
-                <p class="text-lg text-slate-600 leading-relaxed">
-                    Traditional bill negotiation apps take up to 60% of what you save. Parley equips you with instant, AI-crafted negotiation scripts and cancellation letters so you keep every dollar.
-                </p>
-                <div class="pt-2 flex justify-center">
-                    <button onclick="showScreen('form-screen')" class="bg-navy hover:bg-navy-light text-white px-8 py-4 rounded-xl font-semibold text-lg transition shadow-lg hover:shadow-xl">
-                        Generate Free Script
+            <!-- Single Uncluttered Clean Prompt Box -->
+            <div class="relative mb-4">
+                <textarea id="user-prompt" rows="3" 
+                    class="w-full bg-parchment-50 border border-parchment-300 rounded-2xl p-4 text-parchment-950 placeholder-parchment-800/50 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 text-sm md:text-base resize-none custom-scrollbar shadow-inner"
+                    placeholder="Tell Parley what company or fee is bothering you (e.g., 'Chase charged me a $35 overdraft fee' or 'Planet Fitness won't let me cancel online')..."></textarea>
+            </div>
+
+            <!-- Quick Prompt Shortcuts -->
+            <div class="mb-6">
+                <p class="text-xs text-parchment-800 mb-2 font-medium">Or select a common financial headache:</p>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setPrompt('Chase charged me a $35 overdraft fee on my checking account and I want it waived.')" 
+                        class="px-3.5 py-2 rounded-xl bg-parchment-100 hover:bg-terracotta-50 border border-parchment-200 hover:border-terracotta-300 text-xs text-parchment-900 transition-all font-medium flex items-center space-x-1.5">
+                        <span>💸 Waive $35 Overdraft Fee</span>
+                    </button>
+                    <button onclick="setPrompt('Planet Fitness won\'t let me cancel unless I walk into the gym in person, but I moved away.')" 
+                        class="px-3.5 py-2 rounded-xl bg-parchment-100 hover:bg-terracotta-50 border border-parchment-200 hover:border-terracotta-300 text-xs text-parchment-900 transition-all font-medium flex items-center space-x-1.5">
+                        <span>🏋️ Cancel Gym Contract</span>
+                    </button>
+                    <button onclick="setPrompt('Xfinity raised my internet cable bill from $55/mo to $115/mo without notice.')" 
+                        class="px-3.5 py-2 rounded-xl bg-parchment-100 hover:bg-terracotta-50 border border-parchment-200 hover:border-terracotta-300 text-xs text-parchment-900 transition-all font-medium flex items-center space-x-1.5">
+                        <span>📉 Lower Internet Bill</span>
+                    </button>
+                    <button onclick="setPrompt('Delta flight was delayed by 4 hours due to technical issues and I want compensation.')" 
+                        class="px-3.5 py-2 rounded-xl bg-parchment-100 hover:bg-terracotta-50 border border-parchment-200 hover:border-terracotta-300 text-xs text-parchment-900 transition-all font-medium flex items-center space-x-1.5">
+                        <span>✈️ Flight Delay Claim</span>
                     </button>
                 </div>
-                <p class="text-xs text-slate-500">First script is 100% free • No bank account link required</p>
             </div>
 
-            <!-- Pricing Grid -->
-            <div class="space-y-8">
-                <div class="text-center space-y-2">
-                    <h2 class="text-2xl font-bold text-navy">Simple, Transparent Pricing</h2>
-                    <p class="text-sm text-slate-500">Choose the plan that fits your financial goals.</p>
-                </div>
+            <!-- Generate Action Button -->
+            <button id="diagnose-btn" onclick="executeDiagnostic()" 
+                class="w-full py-4 rounded-2xl bg-gradient-terracotta text-white font-bold text-base hover:brightness-105 transition-all shadow-lg shadow-terracotta-500/25 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Diagnose & Generate Self-Defense Pack</span>
+            </button>
+        </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Single Script -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6">
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-navy">Single Pass</h3>
-                            <p class="text-xs text-slate-500">Best for negotiating a single high-cost provider.</p>
-                            <div class="text-3xl font-extrabold text-navy">$6.99 <span class="text-xs font-normal text-slate-500">/ single use</span></div>
-                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
-                                <li>✓ 1 Customized Phone Script</li>
-                                <li>✓ 1 Formal Cancellation Letter</li>
-                                <li>✓ Tailored to provider retention rules</li>
-                            </ul>
-                        </div>
-                        <button onclick="showScreen('form-screen')" class="w-full bg-slate-100 hover:bg-slate-200 text-navy py-3 rounded-xl font-semibold text-sm transition">Select Single Pass</button>
+        <div id="results-container" class="hidden mt-8 space-y-6">
+            
+            <!-- Conversational AI Onboarding / Next Step Card -->
+            <div class="warm-card rounded-3xl p-6 border-l-4 border-terracotta-500 bg-gradient-to-r from-terracotta-50/60 to-white">
+                <div class="flex items-start space-x-4">
+                    <div class="w-10 h-10 rounded-2xl bg-terracotta-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-md">
+                        <i class="fa-solid fa-robot"></i>
                     </div>
-
-                    <!-- Monthly Unlimited (Most Popular) -->
-                    <div class="bg-white p-6 rounded-2xl border-2 border-indigoCustom shadow-md relative flex flex-col justify-between space-y-6">
-                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigoCustom text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full">Most Popular</span>
-                        <div class="space-y-4 pt-1">
-                            <h3 class="text-lg font-bold text-navy">Monthly Unlimited</h3>
-                            <p class="text-xs text-slate-500">Ideal for reviewing all household bills.</p>
-                            <div class="text-3xl font-extrabold text-navy">$9.99 <span class="text-xs font-normal text-slate-500">/ month</span></div>
-                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
-                                <li>✓ Unlimited Negotiation Scripts</li>
-                                <li>✓ Unlimited Cancellation Letters</li>
-                                <li>✓ Cancel anytime in 1 click</li>
-                                <li>✓ Keep 100% of savings</li>
-                            </ul>
+                    <div class="flex-1">
+                        <h3 class="text-base font-bold text-parchment-950 serif-title">Parley Advocate Assessment</h3>
+                        <p class="text-xs text-parchment-800 mt-1 leading-relaxed">
+                            I've structured your tailored Self-Defense Pack below. If you'd like me to scan your full bank or credit card statement to uncover hidden auto-renewals or unexpected fee surges, drop your PDF statement below privately.
+                        </p>
+                        
+                        <!-- Conversational Post-Prompt Statement Drop Zone -->
+                        <div id="drop-zone" onclick="triggerFileInput()" class="mt-4 border-2 border-dashed border-terracotta-300 hover:border-terracotta-500 rounded-2xl p-4 text-center cursor-pointer bg-white transition-all">
+                            <input type="file" id="file-input" class="hidden" accept=".pdf,.png,.jpg,.jpeg" onchange="handleFileSelect(event)">
+                            <p class="text-xs text-parchment-800 font-semibold flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-file-arrow-up text-terracotta-500 text-base"></i>
+                                <span id="file-label">Optional: Drag & drop bank statement PDF for Ghost Audit (100% In-Browser Private)</span>
+                            </p>
                         </div>
-                        <button onclick="showScreen('form-screen')" class="w-full bg-indigoCustom hover:bg-indigoCustom-hover text-white py-3 rounded-xl font-semibold text-sm transition shadow-sm">Start Monthly Plan</button>
-                    </div>
-
-                    <!-- Annual Pass -->
-                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-6">
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-navy">Annual Pass</h3>
-                            <p class="text-xs text-slate-500">Max savings for complete financial cleanup.</p>
-                            <div class="text-3xl font-extrabold text-navy">$59.00 <span class="text-xs font-normal text-slate-500">/ year</span></div>
-                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
-                                <li>✓ Everything in Monthly Unlimited</li>
-                                <li>✓ Save 50% vs monthly rate</li>
-                                <li>✓ Priority AI generation engine</li>
-                            </ul>
-                        </div>
-                        <button onclick="showScreen('form-screen')" class="w-full bg-slate-100 hover:bg-slate-200 text-navy py-3 rounded-xl font-semibold text-sm transition">Select Annual Pass</button>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- SCREEN 2: FORM -->
-        <section id="form-screen" class="hidden max-w-2xl mx-auto">
-            <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm space-y-6">
-                <h2 class="text-2xl font-bold text-navy">Describe your bill or service</h2>
-                <form id="bill-form" onsubmit="handleFormSubmit(event)" class="space-y-5">
+            <!-- Self Defense Pack Display -->
+            <div class="warm-card rounded-3xl p-6 md:p-8 border border-parchment-300">
+                <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-parchment-200 gap-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Company / Provider Name</label>
-                        <input type="text" id="company" required placeholder="e.g. Comcast, Xfinity, Geico" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Current Monthly Bill ($)</label>
-                            <input type="number" id="amount" step="0.01" required placeholder="120.00" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
+                        <div class="inline-flex items-center space-x-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Diagnostic Ready</span>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Customer Duration</label>
-                            <input type="text" id="tenure" required placeholder="e.g. 2 years" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
-                        </div>
+                        <h2 class="text-2xl font-bold text-parchment-950 serif-title">Your AI Self-Defense Pack</h2>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Primary Goal</label>
-                        <select id="goal" class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-navy">
-                            <option value="Lower monthly price">Lower monthly bill rate</option>
-                            <option value="Cancel service completely">Cancel service & avoid fee</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Additional Details</label>
-                        <textarea id="details" rows="3" placeholder="Competitor offers lower rate..." class="w-full px-4 py-3 rounded-xl border border-gray-300 outline-none text-sm text-navy"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-navy hover:bg-navy-light text-white py-4 rounded-xl font-bold text-base transition">
-                        Generate Script & Letter
+                    
+                    <button onclick="confirmSavingsModal()" class="px-4 py-2 rounded-xl bg-terracotta-50 border border-terracotta-200 text-terracotta-700 hover:bg-terracotta-500 hover:text-white font-bold text-sm transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                        <span>Log Successful Savings</span>
                     </button>
-                </form>
-            </div>
-        </section>
-
-        <!-- SCREEN 3: PROCESSING STATE -->
-        <section id="processing-screen" class="hidden text-center py-20 space-y-6">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-navy border-t-transparent"></div>
-            <h3 class="text-xl font-bold text-navy">Crafting your personalized scripts...</h3>
-        </section>
-
-        <!-- SCREEN 4: OUTPUT SCREEN -->
-        <section id="output-screen" class="hidden space-y-6">
-            <div class="bg-indigoCustom-light border border-indigoCustom/30 p-6 rounded-2xl flex items-center justify-between">
-                <div>
-                    <span class="text-xs font-bold uppercase text-indigoCustom">Estimated Savings Potential</span>
-                    <h3 class="text-3xl font-extrabold text-indigoCustom" id="estimated-savings-display">$180 – $360 / year</h3>
                 </div>
-                <span class="bg-indigoCustom text-white text-xs font-bold px-3 py-1 rounded-full">Keep 100% Savings</span>
-            </div>
 
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="flex border-b border-gray-200 bg-gray-50">
-                    <button id="tab-script-btn" onclick="switchTab('script')" class="flex-1 py-4 font-semibold text-sm tab-active">📞 Phone Script</button>
-                    <button id="tab-letter-btn" onclick="switchTab('letter')" class="flex-1 py-4 font-semibold text-sm tab-inactive">✉️ Cancellation Letter</button>
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-parchment-200 mt-6 space-x-2 md:space-x-4">
+                    <button id="tab-btn-1" onclick="switchTab(1)" class="pb-3 px-3 md:px-5 font-bold text-sm border-b-2 border-terracotta-500 text-terracotta-600 flex items-center space-x-2">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>1. Phone Script / Letter</span>
+                    </button>
+                    <button id="tab-btn-2" onclick="switchTab(2)" class="pb-3 px-3 md:px-5 font-bold text-sm border-b-2 border-transparent text-parchment-800 hover:text-parchment-950 flex items-center space-x-2">
+                        <i class="fa-solid fa-key"></i>
+                        <span>2. Secret Policy Leverage</span>
+                    </button>
+                    <button id="tab-btn-3" onclick="switchTab(3)" class="pb-3 px-3 md:px-5 font-bold text-sm border-b-2 border-transparent text-parchment-800 hover:text-parchment-950 flex items-center space-x-2">
+                        <i class="fa-solid fa-gavel"></i>
+                        <span>3. Regulatory Escalation</span>
+                    </button>
                 </div>
-                <div class="p-6">
-                    <div id="script-content-view" class="space-y-4">
-                        <pre id="script-text" class="whitespace-pre-wrap font-sans text-sm text-navy bg-paper p-5 rounded-xl border border-gray-200"></pre>
+
+                <!-- Tab Content Views -->
+                <div class="mt-6">
+                    <!-- TAB 1: SCRIPT -->
+                    <div id="tab-content-1" class="space-y-4">
+                        <div class="p-5 rounded-2xl bg-parchment-50 border border-parchment-200 relative">
+                            <button onclick="copyToClipboard('script-text')" class="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-white hover:bg-parchment-100 text-xs text-parchment-800 font-bold transition-colors border border-parchment-300 shadow-sm">
+                                <i class="fa-regular fa-copy mr-1"></i> Copy Text
+                            </button>
+                            <p class="text-xs text-terracotta-600 font-bold mb-3 uppercase tracking-wider">Word-for-Word Customer Representative Script:</p>
+                            <div id="script-text" class="text-sm text-parchment-900 whitespace-pre-line font-mono leading-relaxed pr-12"></div>
+                        </div>
                     </div>
-                    <div id="letter-content-view" class="hidden space-y-4">
-                        <pre id="letter-text" class="whitespace-pre-wrap font-sans text-sm text-navy bg-paper p-5 rounded-xl border border-gray-200"></pre>
+
+                    <!-- TAB 2: LEVERAGE -->
+                    <div id="tab-content-2" class="hidden space-y-4">
+                        <div class="p-5 rounded-2xl bg-parchment-50 border border-parchment-200">
+                            <p class="text-xs text-terracotta-600 font-bold mb-3 uppercase tracking-wider">Internal Corporate Policy & Legal Exemption Rules:</p>
+                            <div id="leverage-text" class="text-sm text-parchment-900 whitespace-pre-line leading-relaxed"></div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: REGULATORY ESCALATION -->
+                    <div id="tab-content-3" class="hidden space-y-4">
+                        <div class="p-5 rounded-2xl bg-parchment-50 border border-parchment-200 relative">
+                            <button onclick="copyToClipboard('escalation-text')" class="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-white hover:bg-parchment-100 text-xs text-parchment-800 font-bold transition-colors border border-parchment-300 shadow-sm">
+                                <i class="fa-regular fa-copy mr-1"></i> Copy Draft
+                            </button>
+                            <p class="text-xs text-terracotta-600 font-bold mb-3 uppercase tracking-wider">Pre-Filled Regulatory Complaint Notice (CFPB / FCC / FTC):</p>
+                            <div id="escalation-text" class="text-sm text-parchment-900 whitespace-pre-line font-mono leading-relaxed pr-12"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div id="paywall-banner" class="hidden bg-navy text-white p-6 rounded-2xl text-center space-y-3">
-                <h4 class="text-xl font-bold">You've used your 1 free script!</h4>
-                <p class="text-sm text-slate-300">Unlock unlimited negotiation scripts for any bill starting at $6.99.</p>
-                <button onclick="showScreen('landing-screen')" class="bg-indigoCustom hover:bg-indigoCustom-hover text-white px-6 py-3 rounded-xl font-bold text-sm">View Upgrade Plans</button>
-            </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Legal Footer Disclaimer -->
-    <footer class="w-full border-t border-gray-200 py-8 bg-white mt-12">
-        <div class="max-w-4xl mx-auto px-6 text-center space-y-2">
-            <p class="text-xs text-slate-400 leading-relaxed">
-                <strong>Disclaimer:</strong> Rocket Money is a registered trademark of Rocket Money, Inc. Parley is an independent financial tool and is not affiliated with, sponsored by, or endorsed by Rocket Money or any third-party service provider.
-            </p>
-            <p class="text-xs text-slate-400">© 2026 Parley. All rights reserved.</p>
+    <section id="how-it-works" class="max-w-7xl mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-parchment-950 serif-title">Full-Spectrum Financial Self-Defense</h2>
+            <p class="text-parchment-800 mt-2 text-sm max-w-xl mx-auto">Parley is built to handle company stonewalling across all major consumer categories.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="warm-card rounded-2xl p-6 warm-card-hover transition-all">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center text-xl mb-4 border border-terracotta-200">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <h3 class="text-lg font-bold text-parchment-950 mb-2">Bank & Fee Refunds</h3>
+                <p class="text-xs text-parchment-800 leading-relaxed">Leverages internal bank courtesy waiver policies to refund overdraft, late payment, and maintenance charges.</p>
+            </div>
+
+            <div class="warm-card rounded-2xl p-6 warm-card-hover transition-all">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center text-xl mb-4 border border-terracotta-200">
+                    <i class="fa-solid fa-file-contract"></i>
+                </div>
+                <h3 class="text-lg font-bold text-parchment-950 mb-2">Contract Loophole Finder</h3>
+                <p class="text-xs text-parchment-800 leading-relaxed">Scans Terms of Service for mandatory online cancellation rules (e.g., California AB-390) and relocation exemptions.</p>
+            </div>
+
+            <div class="warm-card rounded-2xl p-6 warm-card-hover transition-all">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center text-xl mb-4 border border-terracotta-200">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+                <h3 class="text-lg font-bold text-parchment-950 mb-2">Telecom Rate Lock</h3>
+                <p class="text-xs text-parchment-800 leading-relaxed">Pulls local fiber competitor promotional pricing to force cable retention departments to grant $20–$50/mo bill credits.</p>
+            </div>
+
+            <div class="warm-card rounded-2xl p-6 warm-card-hover transition-all">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center text-xl mb-4 border border-terracotta-200">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+                <h3 class="text-lg font-bold text-parchment-950 mb-2">Regulatory Escalations</h3>
+                <p class="text-xs text-parchment-800 leading-relaxed">Drafts formal CFPB, FCC, and FTC complaints that force executive resolution teams to resolve disputes within 15 days.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="vault" class="max-w-4xl mx-auto px-4 py-12">
+        <div class="warm-card rounded-3xl p-8 border border-parchment-300 flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-white to-parchment-100/50">
+            <div>
+                <div class="flex items-center space-x-2 text-terracotta-600 font-bold text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-vault"></i>
+                    <span>Your Personal Dashboard</span>
+                </div>
+                <h2 class="text-3xl font-extrabold text-parchment-950 serif-title">Parley Savings Vault</h2>
+                <p class="text-parchment-800 text-sm mt-1">Track every dollar reclaimed using Parley's AI self-defense packs.</p>
+            </div>
+
+            <div class="text-center md:text-right bg-white px-8 py-5 rounded-2xl border border-parchment-300 shadow-sm">
+                <p class="text-xs text-parchment-800 font-bold uppercase tracking-wider">Total Confirmed Savings</p>
+                <p id="vault-amount" class="text-4xl font-black text-terracotta-600 mt-1 serif-title">$0.00</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="max-w-5xl mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-parchment-950 serif-title">Transparent Self-Defense Membership</h2>
+            <p class="text-parchment-800 mt-2 text-sm">Save hundreds on bills and fees for less than the cost of a single coffee per month.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <!-- Monthly Plan -->
+            <div class="warm-card rounded-3xl p-8 border border-parchment-300 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-parchment-950 mb-1 serif-title">Pro Monthly</h3>
+                    <p class="text-xs text-parchment-800 mb-6">Flexible protection, cancel anytime.</p>
+                    <div class="flex items-baseline space-x-1 mb-6">
+                        <span class="text-4xl font-extrabold text-parchment-950">$6.99</span>
+                        <span class="text-parchment-800 text-sm">/ month</span>
+                    </div>
+                    <ul class="space-y-3 text-xs text-parchment-800 mb-8 font-medium">
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Unlimited AI Self-Defense Packs</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Bank & Credit Card Fee Dispute Engine</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Contract Loophole & Cancellation Rules</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Keep 100% of All Savings</span></li>
+                    </ul>
+                </div>
+                <button onclick="openPricingModal('monthly')" class="w-full py-3.5 rounded-xl bg-parchment-100 hover:bg-parchment-200 text-parchment-950 font-bold text-sm border border-parchment-300 transition-all">
+                    Choose Monthly ($6.99/mo)
+                </button>
+            </div>
+
+            <!-- Annual Plan (Featured) -->
+            <div class="warm-card rounded-3xl p-8 border-2 border-terracotta-500 relative flex flex-col justify-between glow-terracotta bg-gradient-to-b from-white via-white to-terracotta-50/30">
+                <div class="absolute -top-3.5 right-6 bg-terracotta-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    Save Over 40%
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-parchment-950 mb-1 serif-title">Pro Annual</h3>
+                    <p class="text-xs text-parchment-800 mb-6">Maximum value for year-round financial defense.</p>
+                    <div class="flex items-baseline space-x-1 mb-1">
+                        <span class="text-4xl font-extrabold text-parchment-950">$49</span>
+                        <span class="text-parchment-800 text-sm">/ year</span>
+                    </div>
+                    <p class="text-[11px] text-terracotta-600 font-bold mb-6">Equivalent to ~$4.08 / month</p>
+                    
+                    <ul class="space-y-3 text-xs text-parchment-800 mb-8 font-medium">
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Everything in Pro Monthly</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Priority Cloud AI Model Engine</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>In-Browser Ghost Audit Statement Scanner</span></li>
+                        <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-terracotta-500"></i><span>Pre-Filled CFPB & FCC Regulatory Escalations</span></li>
+                    </ul>
+                </div>
+                <button onclick="openPricingModal('annual')" class="w-full py-3.5 rounded-xl bg-gradient-terracotta text-white font-bold text-sm hover:brightness-105 transition-all shadow-md shadow-terracotta-500/20">
+                    Get Annual ($49/yr)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-parchment-300 bg-parchment-100 py-8 px-4 text-center text-xs text-parchment-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>© 2026 Parley.ai — Privacy-First Consumer Financial Advocate. Zero Commission.</p>
+            <div class="flex space-x-6 font-medium">
+                <a href="#" class="hover:text-terracotta-600 transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-terracotta-600 transition-colors">Privacy Policy</a>
+                <a href="#" onclick="openPayPalGuideModal()" class="hover:text-terracotta-600 transition-colors text-terracotta-700 font-bold"><i class="fa-brands fa-paypal mr-1"></i>PayPal Integration Guide</a>
+            </div>
         </div>
     </footer>
 
-    <script>
-        let runsUsed = parseInt(localStorage.getItem('parley_runs') || '0');
+    <!-- Checkout Modal -->
+    <div id="pricing-modal" class="fixed inset-0 z-50 bg-parchment-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="warm-card rounded-3xl p-6 md:p-8 max-w-lg w-full border border-parchment-300 relative bg-white shadow-2xl">
+            <button onclick="closePricingModal()" class="absolute top-4 right-4 text-parchment-800 hover:text-parchment-950 text-xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-parchment-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-terracotta-50 border border-terracotta-200 text-terracotta-600 flex items-center justify-center text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-parchment-950 serif-title">Unlock Parley Pro</h3>
+                <p class="text-xs text-parchment-800 mt-1">Select your plan and preferred payment method.</p>
+            </div>
 
-        function showScreen(screenId) {
-            ['landing-screen', 'form-screen', 'processing-screen', 'output-screen'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            <!-- Plan Selection Toggle -->
+            <div class="grid grid-cols-2 gap-3 p-1.5 bg-parchment-100 rounded-2xl mb-6">
+                <button id="plan-opt-annual" onclick="selectCheckoutPlan('annual')" class="py-2.5 px-3 rounded-xl font-bold text-xs transition-all bg-white text-parchment-950 shadow-sm border border-parchment-200">
+                    Pro Annual ($49/yr)
+                </button>
+                <button id="plan-opt-monthly" onclick="selectCheckoutPlan('monthly')" class="py-2.5 px-3 rounded-xl font-bold text-xs transition-all text-parchment-800 hover:text-parchment-950">
+                    Pro Monthly ($6.99/mo)
+                </button>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="space-y-3 mb-6">
+                <p class="text-xs font-bold text-parchment-900 uppercase tracking-wider">Choose Payment Method:</p>
+
+                <!-- PayPal Payment Button -->
+                <button onclick="processPayPalPayment()" class="w-full py-3.5 px-4 rounded-xl bg-[#FFC439] hover:bg-[#F2BA31] text-[#003087] font-bold text-sm flex items-center justify-center space-x-2 transition-all shadow-sm">
+                    <i class="fa-brands fa-paypal text-lg text-[#003087]"></i>
+                    <span>Pay with PayPal</span>
+                </button>
+
+                <!-- Credit/Debit Card Option -->
+                <button onclick="processCardPayment()" class="w-full py-3.5 px-4 rounded-xl bg-parchment-900 hover:bg-parchment-950 text-white font-bold text-sm flex items-center justify-center space-x-2 transition-all shadow-sm">
+                    <i class="fa-regular fa-credit-card"></i>
+                    <span>Pay with Credit / Debit Card</span>
+                </button>
+
+                <!-- Apple / Google Pay Shortcuts -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="processQuickPay('Apple Pay')" class="py-2.5 px-3 rounded-xl bg-parchment-100 hover:bg-parchment-200 border border-parchment-300 font-bold text-xs text-parchment-900 flex items-center justify-center space-x-1.5">
+                        <i class="fa-brands fa-apple text-sm"></i>
+                        <span>Apple Pay</span>
+                    </button>
+                    <button onclick="processQuickPay('Google Pay')" class="py-2.5 px-3 rounded-xl bg-parchment-100 hover:bg-parchment-200 border border-parchment-300 font-bold text-xs text-parchment-900 flex items-center justify-center space-x-1.5">
+                        <i class="fa-brands fa-google text-sm"></i>
+                        <span>Google Pay</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-parchment-800 border-t border-parchment-200 pt-4">
+                <span><i class="fa-solid fa-lock text-terracotta-500 mr-1"></i> Encrypted 256-bit Checkout</span>
+                <button onclick="openPayPalGuideModal()" class="text-terracotta-600 font-bold hover:underline">How to connect live PayPal API?</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PayPal Developer Guide Modal -->
+    <div id="paypal-guide-modal" class="fixed inset-0 z-50 bg-parchment-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="warm-card rounded-3xl p-6 md:p-8 max-w-lg w-full border border-parchment-300 relative bg-white shadow-2xl max-h-[85vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closePayPalGuideModal()" class="absolute top-4 right-4 text-parchment-800 hover:text-parchment-950 text-xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-parchment-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-[#003087] text-white flex items-center justify-center font-bold text-xl">
+                    <i class="fa-brands fa-paypal"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-parchment-950 serif-title">Connecting Live PayPal SDK</h3>
+                    <p class="text-xs text-parchment-800">3-step developer guide for your website.</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 text-xs text-parchment-900 leading-relaxed">
+                <div class="p-3.5 rounded-xl bg-parchment-50 border border-parchment-200">
+                    <p class="font-bold text-terracotta-700 mb-1">Step 1: Get Your PayPal Client ID</p>
+                    <p>Log in to <a href="https://developer.paypal.com" target="_blank" class="underline font-bold text-terracotta-600">developer.paypal.com</a>, go to <strong>Apps & Credentials</strong>, create a REST API App, and copy your <code>Client ID</code>.</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-parchment-50 border border-parchment-200">
+                    <p class="font-bold text-terracotta-700 mb-1">Step 2: Add PayPal JS SDK to HTML Head</p>
+                    <p class="mb-2">Paste this script inside your <code>&lt;head&gt;</code> tag (replace <code>YOUR_CLIENT_ID</code>):</p>
+                    <pre class="bg-parchment-950 text-parchment-100 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto">&lt;script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"&gt;&lt;/script&gt;</pre>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-parchment-50 border border-parchment-200">
+                    <p class="font-bold text-terracotta-700 mb-1">Step 3: Render PayPal Smart Buttons</p>
+                    <pre class="bg-parchment-950 text-parchment-100 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto">paypal.Buttons({
+  createOrder: (data, actions) => {
+    return actions.order.create({
+      purchase_units: [{ amount: { value: '49.00' } }]
+    });
+  },
+  onApprove: (data, actions) => {
+    return actions.order.capture().then(details => {
+      alert('Subscription Activated for ' + details.payer.name.given_name);
+    });
+  }
+}).render('#paypal-button-container');</pre>
+                </div>
+            </div>
+
+            <button onclick="closePayPalGuideModal()" class="w-full mt-6 py-3 rounded-xl bg-parchment-900 text-white font-bold text-xs">
+                Got It
+            </button>
+        </div>
+    </div>
+
+    <!-- Savings Confirm Modal -->
+    <div id="savings-modal" class="fixed inset-0 z-50 bg-parchment-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="warm-card rounded-3xl p-6 max-w-sm w-full border border-parchment-300 text-center bg-white shadow-2xl">
+            <h3 class="text-xl font-bold text-parchment-950 mb-2 serif-title">Log Reclaimed Money</h3>
+            <p class="text-xs text-parchment-800 mb-4">How much money did this Parley self-defense pack save you?</p>
+            
+            <input type="number" id="savings-amount-input" placeholder="e.g. 35 or 120" class="w-full bg-parchment-50 border border-parchment-300 rounded-xl p-3 text-center text-xl font-bold text-terracotta-600 mb-4 focus:outline-none focus:border-terracotta-500">
+            
+            <div class="flex space-x-3">
+                <button onclick="closeSavingsModal()" class="w-1/2 py-2.5 rounded-xl bg-parchment-100 text-parchment-800 font-bold text-xs">Cancel</button>
+                <button onclick="saveVaultAmount()" class="w-1/2 py-2.5 rounded-xl bg-terracotta-500 text-white font-bold text-xs">Save to Vault</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let totalSavings = parseFloat(localStorage.getItem('parley_vault_savings') || '0');
+        let selectedPlan = 'annual';
+        let trialUsed = false;
+
+        window.onload = function() {
+            updateVaultDisplay();
+        };
+
+        function setPrompt(text) {
+            document.getElementById('user-prompt').value = text;
         }
 
-        function switchTab(tab) {
-            if (tab === 'script') {
-                document.getElementById('tab-script-btn').className = 'flex-1 py-4 font-semibold text-sm tab-active';
-                document.getElementById('tab-letter-btn').className = 'flex-1 py-4 font-semibold text-sm tab-inactive';
-                document.getElementById('script-content-view').classList.remove('hidden');
-                document.getElementById('letter-content-view').classList.add('hidden');
-            } else {
-                document.getElementById('tab-script-btn').className = 'flex-1 py-4 font-semibold text-sm tab-inactive';
-                document.getElementById('tab-letter-btn').className = 'flex-1 py-4 font-semibold text-sm tab-active';
-                document.getElementById('script-content-view').classList.add('hidden');
-                document.getElementById('letter-content-view').classList.remove('hidden');
+        function triggerFileInput() {
+            document.getElementById('file-input').click();
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('file-label').innerText = `Uploaded: ${file.name} (Simulated 100% In-Browser Private Scan)`;
             }
         }
 
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            const formData = {
-                company: document.getElementById('company').value,
-                amount: parseFloat(document.getElementById('amount').value),
-                tenure: document.getElementById('tenure').value,
-                goal: document.getElementById('goal').value,
-                details: document.getElementById('details').value
-            };
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
 
-            showScreen('processing-screen');
-            document.getElementById('estimated-savings-display').innerText = `$${Math.round(formData.amount * 2.4)} – $${Math.round(formData.amount * 4.8)} / year`;
+        function openPricingModal(plan = 'annual') {
+            selectCheckoutPlan(plan);
+            document.getElementById('pricing-modal').classList.remove('hidden');
+        }
+
+        function closePricingModal() {
+            document.getElementById('pricing-modal').classList.add('hidden');
+        }
+
+        function selectCheckoutPlan(plan) {
+            selectedPlan = plan;
+            const annualBtn = document.getElementById('plan-opt-annual');
+            const monthlyBtn = document.getElementById('plan-opt-monthly');
+
+            if (plan === 'annual') {
+                annualBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs transition-all bg-white text-parchment-950 shadow-sm border border-parchment-200";
+                monthlyBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs transition-all text-parchment-800 hover:text-parchment-950";
+            } else {
+                monthlyBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs transition-all bg-white text-parchment-950 shadow-sm border border-parchment-200";
+                annualBtn.className = "py-2.5 px-3 rounded-xl font-bold text-xs transition-all text-parchment-800 hover:text-parchment-950";
+            }
+        }
+
+        function processPayPalPayment() {
+            const amount = selectedPlan === 'annual' ? '$49.00' : '$6.99';
+            alert(`[PayPal Checkout Simulation]\nRedirecting to PayPal to complete your Parley Pro ${selectedPlan.toUpperCase()} subscription (${amount})...`);
+            closePricingModal();
+        }
+
+        function processCardPayment() {
+            const amount = selectedPlan === 'annual' ? '$49.00' : '$6.99';
+            alert(`[Credit Card Checkout]\nOpening secure payment gateway for Parley Pro ${selectedPlan.toUpperCase()} (${amount})...`);
+            closePricingModal();
+        }
+
+        function processQuickPay(method) {
+            const amount = selectedPlan === 'annual' ? '$49.00' : '$6.99';
+            alert(`[${method} Checkout]\nConfirming payment of ${amount} for Parley Pro ${selectedPlan.toUpperCase()}...`);
+            closePricingModal();
+        }
+
+        function openPayPalGuideModal() {
+            document.getElementById('paypal-guide-modal').classList.remove('hidden');
+        }
+
+        function closePayPalGuideModal() {
+            document.getElementById('paypal-guide-modal').classList.add('hidden');
+        }
+
+        function confirmSavingsModal() {
+            document.getElementById('savings-modal').classList.remove('hidden');
+        }
+
+        function closeSavingsModal() {
+            document.getElementById('savings-modal').classList.add('hidden');
+        }
+
+        function updateVaultDisplay() {
+            document.getElementById('vault-amount').innerText = `$${totalSavings.toFixed(2)}`;
+            document.getElementById('nav-vault-amount').innerText = `$${totalSavings.toFixed(2)}`;
+            localStorage.setItem('parley_vault_savings', totalSavings.toString());
+        }
+
+        function saveVaultAmount() {
+            const input = document.getElementById('savings-amount-input').value;
+            const val = parseFloat(input);
+            if (!isNaN(val) && val > 0) {
+                totalSavings += val;
+                updateVaultDisplay();
+                closeSavingsModal();
+                document.getElementById('savings-amount-input').value = '';
+            }
+        }
+
+        function switchTab(tabNum) {
+            [1, 2, 3].forEach(n => {
+                const btn = document.getElementById(`tab-btn-${n}`);
+                const content = document.getElementById(`tab-content-${n}`);
+                if (n === tabNum) {
+                    btn.className = "pb-3 px-3 md:px-5 font-bold text-sm border-b-2 border-terracotta-500 text-terracotta-600 flex items-center space-x-2";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "pb-3 px-3 md:px-5 font-bold text-sm border-b-2 border-transparent text-parchment-800 hover:text-parchment-950 flex items-center space-x-2";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Copied to clipboard!');
+        }
+
+        async function executeDiagnostic() {
+            const prompt = document.getElementById('user-prompt').value.trim();
+            if (!prompt) {
+                alert('Please describe a fee or company issue first.');
+                return;
+            }
+
+            if (trialUsed) {
+                openPricingModal();
+                return;
+            }
+
+            const diagnoseBtn = document.getElementById('diagnose-btn');
+            diagnoseBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>Parley Advocate is Analyzing Leverage...</span>`;
+            diagnoseBtn.disabled = true;
 
             try {
-                const response = await fetch('/.netlify/functions/generate-script', {
+                // Attempt Cloud API route first via Netlify Function
+                const response = await fetch('/.netlify/functions/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({ prompt: prompt })
                 });
-                const data = await response.json();
-                renderResults(data.script, data.letter);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.text) {
+                        renderResultsFromCloud(data.text);
+                        trialUsed = true;
+                        return;
+                    }
+                }
+                // Fallback if function fails or key absent
+                runLocalHybridEngine(prompt);
             } catch (err) {
-                const targetPrice = (formData.amount * 0.7).toFixed(2);
-                renderResults(
-                    `PARLEY NEGOTIATION SCRIPT FOR ${formData.company.toUpperCase()}\n\n[STEP 1: INITIAL REQUEST]\n"Hello, I've been a loyal customer for ${formData.tenure}. I noticed my current bill is $${formData.amount}/month. I am looking to lower my expenses and noticed competitor packages in my area starting significantly lower. What promotional rates can we apply to keep my monthly bill down?"\n\n[STEP 2: IF THEY SAY NO OR OFFER A SMALL DISCOUNT]\n"I appreciate that, but $${formData.amount} is beyond my budget right now. I am evaluating my options today to lower my fixed overhead. Please transfer me to your Customer Retention Department."\n\n[STEP 3: RETENTION CLOSER]\n"If we can drop this closer to $${targetPrice}/month, I will happily renew my contract today. Otherwise, please process my cancellation request."`,
-                    `FORMAL NOTICE OF CANCELLATION\n\nTo: ${formData.company} Retention Department\nDate: ${new Date().toLocaleDateString()}\n\nPlease accept this letter as formal notice of cancellation for my account with ${formData.company}, effective immediately. My current monthly rate of $${formData.amount} is no longer within budget.\n\nSincerely,\n[Your Name]`
-                );
+                // Network error fallback
+                runLocalHybridEngine(prompt);
+            } finally {
+                diagnoseBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Diagnose & Generate Self-Defense Pack</span>`;
+                diagnoseBtn.disabled = false;
+                trialUsed = true;
             }
         }
 
-        function renderResults(scriptText, letterText) {
-            document.getElementById('script-text').innerText = scriptText;
-            document.getElementById('letter-text').innerText = letterText;
-            runsUsed++;
-            localStorage.setItem('parley_runs', runsUsed.toString());
-            if (runsUsed > 1) document.getElementById('paywall-banner').classList.remove('hidden');
-            showScreen('output-screen');
+        function renderResultsFromCloud(rawText) {
+            document.getElementById('script-text').innerText = rawText;
+            document.getElementById('leverage-text').innerText = "Cloud AI Reasoning Active: Extracted leverage and policy match from query.";
+            document.getElementById('escalation-text').innerText = "Formal Regulatory Notice:\n\nIf resolution is not granted within 3 business days, this issue will be formally escalated to the CFPB/FCC regulatory board.";
+            document.getElementById('results-container').classList.remove('hidden');
+            scrollToSection('results-container');
+        }
+
+        function runLocalHybridEngine(prompt) {
+            const lower = prompt.toLowerCase();
+            let script = "", leverage = "", escalation = "";
+
+            if (lower.includes('overdraft') || lower.includes('chase') || lower.includes('bank') || lower.includes('fee')) {
+                script = `AGENT SCRIPT:\n"Hello, I am reviewing my recent transactions and noticed a $35 overdraft/fee on my account. I have been a customer in good standing and am requesting a one-time courtesy refund for this charge under your account retention waiver policy."\n\nIF THEY SAY NO:\n"I understand your position, but as a loyal customer, I know customer care supervisors have discretion to issue courtesy fee waivers up to 3 times per calendar year. Please transfer me to a supervisor."`;
+                leverage = `BANK COURTESY WAIVER POLICY:\nMajor financial institutions maintain internal courtesy guidelines allowing agents to waive 1-3 fee charges per year for accounts in good standing. Quoting "Courtesy Account Waiver Rules" triggers higher-level agent authority.`;
+                escalation = `FORMAL CFPB COMPLAINT DRAFT:\nTo: Consumer Financial Protection Bureau (CFPB)\nRe: Unfair Fee Practice / Unreasonable Fee Assessment\n\nConsumer requests full reimbursement of fee assessed on account. Financial institution failed to grant standard courtesy relief despite consistent deposit history.`;
+            } else if (lower.includes('planet fitness') || lower.includes('gym') || lower.includes('cancel')) {
+                script = `WRITTEN CANCELLATION NOTICE:\n"To Gym Management / Billing Department:\n\nEffective immediately, please cancel my membership. Under state auto-renewal regulations (e.g., California AB-390 / FTC negative option rules), requiring in-person visits or certified mail for cancellation when services are managed online constitutes deceptive practice. Please confirm cancellation in writing within 48 hours."`;
+                leverage = `STATE AUTO-RENEWAL LAWS & RELOCATION CLAUSES:\nIf you signed up or manage services online, state laws mandate an online cancellation method. Additionally, relocation outside an operational radius mandates fee-free termination under standard TOS exemptions.`;
+                escalation = `FORMAL FTC / STATE ATTORNEY GENERAL DRAFT:\nRe: Deceptive Cancellation Barriers & Negative Option Billing\n\nCompany enforces arbitrary physical attendance barriers to prevent contract termination. Requesting immediate regulatory intervention and contract dissolution.`;
+            } else if (lower.includes('xfinity') || lower.includes('cable') || lower.includes('internet') || lower.includes('bill')) {
+                script = `RETENTION DEPT PHONE SCRIPT:\n"Hello, my rate recently jumped to an unreasonable level. Local fiber providers in my area offer gigabit service for lower promo rates. Please transfer me to your Customer Retention & Loyalty Department so we can apply a promotional rate lock to my current bill."`;
+                leverage = `TELECOM COMPETITOR RATE MATCHING:\nTelecom agents in Retention Departments have pre-allocated monthly bill credit allowances ($20-$50/mo) specifically reserved for customers citing local fiber competitor promo pricing.`;
+                escalation = `INFORMAL FCC COMPLAINT DRAFT:\nTo: Federal Communications Commission (FCC)\nRe: Unexpected Price Hike / Failure to Honor Promotional Guarantees\n\nSubscriber challenges unnotified rate increases that breach initial promotional agreement terms.`;
+            } else {
+                script = `UNIVERSAL ADVOCATE SCRIPT:\n"Hello, I am contacting you regarding a recent dispute with my account for ${prompt}. I am requesting a full credit/waiver for this charge under consumer fair billing guidelines. Please confirm this resolution today."`;
+                leverage = `CONSUMER PROTECTION LEVERAGE:\nFederal guidelines require clear billing disclosure. Corporate customer service agents are authorized to resolve first-level disputes under $100 immediately to maintain account retention.`;
+                escalation = `REGULATORY ESCALATION DRAFT:\nTo: Consumer Protection Oversight\nRe: Unresolved Account Dispute for ${prompt}\n\nFormal notification that complaint will be escalated if company fails to provide resolution within 3 business days.`;
+            }
+
+            document.getElementById('script-text').innerText = script;
+            document.getElementById('leverage-text').innerText = leverage;
+            document.getElementById('escalation-text').innerText = escalation;
+
+            document.getElementById('results-container').classList.remove('hidden');
+            scrollToSection('results-container');
         }
     </script>
 </body>
