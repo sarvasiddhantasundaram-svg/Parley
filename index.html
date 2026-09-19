@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="light">
-<head>
+<!-- PayPal SDK Integration -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAX3neSCbcqFnKldet7kLCldWYxS3lY7ebWYIGyodZ_VvLuqx_bQvsdb7vNxvwFXYSZn905hGXbm2-TZU&currency=USD"></script>
+</head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parley — Financial Self-Defense & AI Advocate</title>
@@ -757,6 +759,59 @@
             document.getElementById('results-container').classList.remove('hidden');
             scrollToSection('results-container');
         }
+        // Initialize PayPal Smart Payment Buttons inside the modal
+function initPayPalButtons() {
+    const container = document.getElementById('paypal-button-container');
+    if (!container || !window.paypal) return;
+
+    // Clear previous buttons to prevent duplicates
+    container.innerHTML = '';
+
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            color:  'gold',
+            shape:  'rect',
+            label:  'paypal'
+        },
+        createOrder: function(data, actions) {
+            // Checks if the user selected Annual or Monthly plan
+            const isAnnual = document.querySelector('.plan-card.active')?.innerText.includes('Annual') || false;
+            const price = isAnnual ? '49.00' : '6.99';
+
+            return actions.order.create({
+                purchase_units: [{
+                    description: `Parley Pro Advocate Membership (${isAnnual ? 'Annual' : 'Monthly'})`,
+                    amount: { value: price }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('Payment successful! Welcome to Parley Pro, ' + details.payer.name.given_name + '.');
+                
+                // Save subscription status
+                localStorage.setItem('parley_pro_user', 'true');
+                closeCheckoutModal();
+                
+                // Update header badge
+                const badge = document.querySelector('.pro-badge');
+                if (badge) badge.innerText = 'PRO ACTIVE';
+            });
+        },
+        onError: function(err) {
+            console.error('PayPal Error:', err);
+            alert('Payment could not be completed. Please try again.');
+        }
+    }).render('#paypal-button-container');
+}
+
+// Automatically load PayPal buttons whenever the payment modal opens
+const originalOpenModal = window.openCheckoutModal;
+window.openCheckoutModal = function() {
+    if (typeof originalOpenModal === 'function') originalOpenModal();
+    setTimeout(initPayPalButtons, 300);
+};
     </script>
 </body>
 </html>
